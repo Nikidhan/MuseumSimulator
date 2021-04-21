@@ -3,10 +3,10 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-        Museum museum = new Museum();
-        Turnstile turn = new Turnstile();
+        Museum museum = new Museum(10,100);
         Timer timer = new Timer();
-        TicketCounter t1 = new TicketCounter(timer,museum,turn,10);
+        Turnstile turn = new Turnstile(timer);
+        TicketCounter t1 = new TicketCounter(timer,museum,turn,5);
 
         timer.start();
         t1.start();
