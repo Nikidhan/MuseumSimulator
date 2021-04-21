@@ -9,7 +9,7 @@ public class TicketCounter extends Thread {
     Museum museum;
     Timer timer;
     Turnstile turnstile;
-    int counter = 0; //ticket id counter
+    int counter = 1; //ticket id counter
 
     public TicketCounter(Timer timer,Museum museum,Turnstile turnstile,int num){
         this.timer = timer;
@@ -26,7 +26,7 @@ public class TicketCounter extends Thread {
     //4) start all tickets thread using executor
 
     public String prepare(int current){
-        System.out.println(Thread.currentThread().getName()+ ": Buying ticket... ");
+//        System.out.println(Thread.currentThread().getName()+ ": Buying ticket... ");
         String ticketID="";
         try{
             //generate ticketID
@@ -62,10 +62,10 @@ public class TicketCounter extends Thread {
         while(ticket_remaining>0){
             Random rand_buy = new Random();
 
-            if(ticket_remaining<5){
-                ticket_bought = rand_buy.nextInt(ticket_remaining)+1;
+            if(ticket_remaining<5 && ticket_remaining>0){
+                ticket_bought = getRandomInteger(1,ticket_remaining);
             }else{
-                ticket_bought = rand_buy.nextInt(6)+1; //max 6 ticket per customer
+                ticket_bought = getRandomInteger(1,6); //max 6 ticket per customer
             }
 
             int current = counter;
@@ -99,6 +99,10 @@ public class TicketCounter extends Thread {
             //timer = thread; 1 minute (alternate reality) = 200ms (reality)
         }
 
+    }
+
+    public static int getRandomInteger(int maximum, int minimum){
+        return ((int) (Math.random()*(maximum - minimum))) + minimum;
     }
 
 
