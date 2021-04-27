@@ -39,20 +39,32 @@ public class Ticket extends Thread{
             museum.visitor_enter();
             int exit_hour = timer.getCurrentHour() + hours;
             int exit_minute = timer.getCurrentMin() + minutes;
-            System.out.println(ticketID+" expected exit time:" + String.format("%02d", exit_hour)+ String.format("%02d", exit_minute));
 
-//            Thread.sleep(duration * 200);
+            if(exit_minute>59){
+                int add_hour=0;
+                int new_min=0;
+                add_hour = exit_minute/60;
+                new_min = exit_minute%60;
+                exit_hour = exit_hour + add_hour;
+                exit_minute = new_min;
+            }
+
+            System.out.println(ticketID+ " Duration:" + duration);
+            System.out.println(ticketID+" expected exit time:" + String.format("%02d", exit_hour)+ String.format("%02d", exit_minute));
 
             while(true){
                 Thread.sleep(200);
-//                System.out.println("Masa sekarang " + timer.current_time);
                 if(exit_hour==timer.getCurrentHour()&&exit_minute==timer.getCurrentMin()){
+                    turnstile.exit(ticketID, museum);
+                    museum.visitor_exit();
+                    break;
+                } else if(timer.getCurrentHour()==17&&timer.getCurrentMin()>55){
+                    System.out.println(ticketID + "  is exiting because museum is closing");
+                    turnstile.exit(ticketID, museum);
+                    museum.visitor_exit();
                     break;
                 }
             }
-
-            turnstile.exit(ticketID, museum);
-            museum.visitor_exit();
 
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();

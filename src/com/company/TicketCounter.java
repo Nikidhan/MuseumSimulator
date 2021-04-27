@@ -59,13 +59,17 @@ public class TicketCounter extends Thread {
         //Simulate people randomly buying a random number of tickets within
         //time interval
         int ticket_bought=0;
-        while(ticket_remaining>0){
+
+        while(ticket_remaining>0 && timer.getCurrentHour()<17){
+            if(timer.getCurrentHour()==17 && timer.getCurrentMin()>=0){
+                break;
+            }
             Random rand_buy = new Random();
 
             if(ticket_remaining<5 && ticket_remaining>0){
-                ticket_bought = getRandomInteger(1,ticket_remaining);
+                ticket_bought = getRandomInteger(ticket_remaining,1);
             }else{
-                ticket_bought = getRandomInteger(1,6); //max 6 ticket per customer
+                ticket_bought = getRandomInteger(6,1); //max 6 ticket per customer
             }
 
             int current = counter;
