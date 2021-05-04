@@ -1,5 +1,11 @@
+/**
+ * The Main.java used to call other class that needed
+ * and run the system. 
+ */
 package com.company;
-
+/**
+ * @author Aiman, Zikri, Ahlami, Nik
+ */
 public class Main {
 
     public static void main(String[] args) {
