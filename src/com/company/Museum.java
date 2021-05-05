@@ -46,6 +46,7 @@ public class Museum {
 
     /**
      * Method that get the current capacity of visitor in the Museum
+     * @return current_capacity
      */
     public int getCurrentCapacity(){
         return current_capacity;
@@ -54,6 +55,7 @@ public class Museum {
     /**
      * Method that get the limit of the maximum current capacity of visitors 
      * at one time.
+     * @return max_current_capacity
      */
     public int getMaxCurrentCapacity(){
         return max_current_capacity;
@@ -61,6 +63,7 @@ public class Museum {
     
     /**
      * Method that get the total capacity of visitors at that time.
+     * @return total_capacity
      */
     public int getTotalCapacity(){
         return total_capacity;
@@ -68,6 +71,7 @@ public class Museum {
     
     /**
      * Method that get the limit of maximum total capacity of visitors.
+     * @return max_total_capacity
      */
     public int getMaxTotalCapacity(){
         return max_total_capacity;
