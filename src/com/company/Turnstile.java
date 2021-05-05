@@ -32,7 +32,7 @@ public class Turnstile {
     /**
      * Method thar get the visitor's entrance gate and turnstile that randomly 
      * assign to every customer.
-     * @return String
+     * @return getName
      */
     public String getEntranceGate() {
         String[] gateName = {"NET1", "NET2", "NET3", "NET4", "SET1", "SET2", "SET3", "SET4"};
@@ -42,7 +42,7 @@ public class Turnstile {
     /**
      * Method thar get the visitor's exit gate and turnstile that randomly 
      * assign to every customer.
-     * @return String
+     * @return getName
      */
     public static String getExitGate() {
         String[] gateName = {"EET1", "EET2", "EET3", "EET4", "WET1", "WET2", "WET3", "WET4"};
