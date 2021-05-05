@@ -31,9 +31,6 @@ public class Ticket extends Thread{
         int minutes = duration%60;
 
         try {
-            while(timer.current_time.charAt(1)=='8'){
-
-            }
 
             turnstile.enter(ticketID,duration,museum);
             museum.visitor_enter();
@@ -48,9 +45,6 @@ public class Ticket extends Thread{
                 exit_hour = exit_hour + add_hour;
                 exit_minute = new_min;
             }
-
-            System.out.println(ticketID+ " Duration:" + duration);
-            System.out.println(ticketID+" expected exit time:" + String.format("%02d", exit_hour)+ String.format("%02d", exit_minute));
 
             while(true){
                 Thread.sleep(200);
