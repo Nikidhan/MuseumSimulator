@@ -64,7 +64,7 @@ public class Timer extends Thread{
                         }else if(hours==17&&min==50){// The time museum about to close at 1750
                             System.out.println("Museum is closing");
                         } else if(hours==18&&min==0){// The time museum close at 1800
-                            System.out.println("Museum is closed");
+                            System.out.println(time+" Museum is closed");
                         }
                         Thread.sleep(200);
                     }catch (InterruptedException e){
