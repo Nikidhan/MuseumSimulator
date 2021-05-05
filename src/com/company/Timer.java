@@ -60,9 +60,9 @@ public class Timer extends Thread{
                         current_hour = hours;
                         current_mins = min;
                         if(hours==9&&min==0){// The time museum open at 0900
-                            System.out.println("Museum is opened");
+                            System.out.println(time+" Museum is opened");
                         }else if(hours==17&&min==50){// The time museum about to close at 1750
-                            System.out.println("Museum is closing");
+                            System.out.println(time+" Museum is closing");
                         } else if(hours==18&&min==0){// The time museum close at 1800
                             System.out.println(time+" Museum is closed");
                         }
