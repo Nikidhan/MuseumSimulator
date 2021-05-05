@@ -1,16 +1,31 @@
+/**
+ * TicketCounter.java simulate the environment of the ticket counter in the 
+ * museum
+ */
 package com.company;
 
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+/**
+ * @author Aiman, Zikri, Ahlami, Nik
+ */
 public class TicketCounter extends Thread {
-    private int ticket_remaining;
+    private int ticket_remaining;// Available ticket left
     Museum museum;
     Timer timer;
     Turnstile turnstile;
     int counter = 1; //ticket id counter
 
+    /**
+     * A TicketCounter constructor that is called in the Main to create 
+     * TicketCounter object. The initial available ticket will be initialize
+     * when calling this constructor.
+     * @param timer
+     * @param museum
+     * @param turnstile
+     * @param num 
+     */
     public TicketCounter(Timer timer,Museum museum,Turnstile turnstile,int num){
         this.timer = timer;
         this.museum = museum;
@@ -24,16 +39,21 @@ public class TicketCounter extends Thread {
     //2) generate ticket ID for tickets bought
     //3) called sale() and print "0000 Ticket 0001,0002 sold"
     //4) start all tickets thread using executor
-
+    
+    /**
+     * A method prepare the ticket ID and also randomize the duration of one 
+     * visitor inside the museum.
+     * @param current
+     * @return ticketID
+     */
     public String prepare(int current){
-//        System.out.println(Thread.currentThread().getName()+ ": Buying ticket... ");
         String ticketID="";
         try{
             //generate ticketID
             String initial = "T";
             long number = current; //change to total left after this
             ticketID = initial + String.format("%04d",number);
-            //time interval
+            //randomize the duration of visitor inside the museum.
             Random rand= new Random();
             int duration = rand.nextInt(500);
             Thread.sleep(duration);
@@ -45,12 +65,16 @@ public class TicketCounter extends Thread {
         return ticketID;
     }
 
+    /**
+     * Method that process the decremental number of ticket remaining everytime
+     * a visitor buy a ticket.
+     */
     public void sale(){
         int tickets = ticket_remaining;
         if (tickets>0){
             tickets--;
             ticket_remaining = tickets;
-            System.out.println("Remaining ticket: "+ticket_remaining);
+           // System.out.println("Remaining ticket: "+ticket_remaining);
         }
     }
 
@@ -60,7 +84,7 @@ public class TicketCounter extends Thread {
         //time interval
         int ticket_bought=0;
 
-        while(ticket_remaining>0 && timer.getCurrentHour()<17){
+        while(ticket_remaining>0 && timer.getCurrentHour()<17){// Ticket selling time until 1700
             if(timer.getCurrentHour()==17 && timer.getCurrentMin()>=0){
                 break;
             }
@@ -72,6 +96,7 @@ public class TicketCounter extends Thread {
                 ticket_bought = getRandomInteger(6,1); //max 6 ticket per customer
             }
 
+            // Run the prepare method and sale method.
             int current = counter;
             String[] tickets = new String[ticket_bought];
             for(int j = 0; j<ticket_bought; j++){
@@ -80,8 +105,8 @@ public class TicketCounter extends Thread {
                 sale();
                 current++;
             }
+            
             //print tickets sold
-            System.out.println("");
             System.out.print(timer.current_time+" Tickets");
             for(int i = 0; i<ticket_bought;i++){
                 if(i == ticket_bought-1){
@@ -92,6 +117,7 @@ public class TicketCounter extends Thread {
 
             }
 
+            // Execute Ticket class as a pool of Thread based on the ticket bought.
             ExecutorService executor = Executors.newFixedThreadPool(ticket_bought+1);
             for(int i = 0; i<ticket_bought; i++){
                 Ticket ticket = new Ticket(timer,museum,turnstile,counter);
@@ -99,8 +125,6 @@ public class TicketCounter extends Thread {
                 executor.execute(ticket);
             }
             executor.shutdown();
-
-            //timer = thread; 1 minute (alternate reality) = 200ms (reality)
         }
 
     }
@@ -108,6 +132,4 @@ public class TicketCounter extends Thread {
     public static int getRandomInteger(int maximum, int minimum){
         return ((int) (Math.random()*(maximum - minimum))) + minimum;
     }
-
-
 }
