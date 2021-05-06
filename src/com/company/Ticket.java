@@ -45,7 +45,7 @@ public class Ticket extends Thread{
 
         try {
             //No visitor enter at 0800
-            while(timer.curremt_time.charAt(1)=='8'){
+            while(timer.current_time.charAt(1)=='8'){
                 
             }    
             turnstile.enter(ticketID,duration,museum);
