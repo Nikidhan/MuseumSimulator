@@ -16,6 +16,7 @@ public class TicketCounter extends Thread {
     Timer timer;
     Turnstile turnstile;
     int counter = 1; //ticket id counter
+    int ticketSold = 0;
 
     /**
      * A TicketCounter constructor that is called in the Main to create 
@@ -58,7 +59,6 @@ public class TicketCounter extends Thread {
             int duration = rand.nextInt(500);
             Thread.sleep(duration);
 
-
         }catch (InterruptedException e){
             e.printStackTrace();
         }
@@ -84,16 +84,25 @@ public class TicketCounter extends Thread {
         //time interval
         int ticket_bought=0;
 
-        while(ticket_remaining>0 && timer.getCurrentHour()<17){// Ticket selling time until 1700
-            if(timer.getCurrentHour()==17 && timer.getCurrentMin()>=0){
+        while(ticket_remaining>0 && timer.getCurrentHour()<17 && ticketSold <= museum.getMaxTotalCapacity()) {// Ticket selling time until 1700
+            if (timer.getCurrentHour() == 17 && timer.getCurrentMin() >= 0) {
                 break;
             }
+            
+            
+            if (ticketSold == museum.getMaxTotalCapacity()) {
+                System.out.println("The number of visitors has reached the daily visitor limit.");
+                break;
+            }
+
             Random rand_buy = new Random();
 
-            if(ticket_remaining<5 && ticket_remaining>0){
+            if(museum.getMaxTotalCapacity()-ticketSold<4 && museum.getMaxTotalCapacity()-ticketSold>0){
+                ticket_bought = getRandomInteger(museum.getMaxTotalCapacity()-ticketSold,1);
+            }else if(ticket_remaining<4 && ticket_remaining>0){
                 ticket_bought = getRandomInteger(ticket_remaining,1);
             }else{
-                ticket_bought = getRandomInteger(6,1); //max 6 ticket per customer
+                ticket_bought = getRandomInteger(5,1); //max 4 ticket per customer
             }
 
             // Run the prepare method and sale method.
@@ -122,6 +131,7 @@ public class TicketCounter extends Thread {
             for(int i = 0; i<ticket_bought; i++){
                 Ticket ticket = new Ticket(timer,museum,turnstile,counter);
                 counter++;
+                ticketSold++;
                 executor.execute(ticket);
             }
             executor.shutdown();
