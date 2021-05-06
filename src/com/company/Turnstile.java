@@ -66,6 +66,9 @@ public class Turnstile {
         //enter.
         try{
             lock.lock();
+            if(museum.getCurrentCapacity()==museum.getMaxCurrentCapacity()){
+                System.out.println("Museum is currently full. Ticket "+ticketID+" is waiting.");
+            }
             while(museum.getCurrentCapacity()==museum.getMaxCurrentCapacity()){
                 fullCondition.await();//Wait for signalAll once visitor exit and new visitor to enter.
             }
