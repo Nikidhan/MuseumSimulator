@@ -9,10 +9,19 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-        Museum museum = new Museum(100,900);
+        Scanner read = new Scanner(System.in);
+
+        System.out.println("Enter the number of maximum current capacity:");
+        int max_current_capacity = read.nextInt();
+        System.out.println("Enter the number of maximum total capacity:");
+        int max_total_capacity = read.nextInt();
+        System.out.println("Enter the number of tickets:");
+        int totalTicket = read.nextInt();
+
+        Museum museum = new Museum(max_current_capacity,max_total_capacity);
         Timer timer = new Timer();
         Turnstile turn = new Turnstile(timer);
-        TicketCounter t1 = new TicketCounter(timer,museum,turn,900);
+        TicketCounter t1 = new TicketCounter(timer,museum,turn,totalTicket);
 
         timer.start();
         t1.start();
