@@ -17,6 +17,7 @@ public class TicketCounter extends Thread {
     Turnstile turnstile;
     int counter = 1; //ticket id counter
     int ticketSold = 0;
+    Controller controller;
 
     /**
      * A TicketCounter constructor that is called in the Main to create 
@@ -27,7 +28,8 @@ public class TicketCounter extends Thread {
      * @param turnstile
      * @param num 
      */
-    public TicketCounter(Timer timer,Museum museum,Turnstile turnstile,int num){
+    public TicketCounter(Timer timer,Museum museum,Turnstile turnstile,Controller controller,int num){
+        this.controller = controller;
         this.timer = timer;
         this.museum = museum;
         this.turnstile = turnstile;
@@ -74,12 +76,14 @@ public class TicketCounter extends Thread {
         if (tickets>0){
             tickets--;
             ticket_remaining = tickets;
+            controller.setTicketRemainingTxtTxt(ticket_remaining);
            // System.out.println("Remaining ticket: "+ticket_remaining);
         }
     }
 
     @Override
     public void run(){
+
         //Simulate people randomly buying a random number of tickets within
         //time interval
         int ticket_bought=0;

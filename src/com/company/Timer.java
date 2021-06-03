@@ -4,6 +4,11 @@
  * We assume that 200 ms = 1 minute for the museum environment.
  */
 package com.company;
+
+import javafx.scene.text.Text;
+
+import java.awt.*;
+
 /**
  * @author Aiman, Zikri, Ahlami, Nik
  */
@@ -13,14 +18,16 @@ public class Timer extends Thread{
         private int openTime;
         int current_hour;
         int current_mins;
+        Controller controller;
+
                 
         /**
          * Timer constructor that is called in the Main to create Timer object 
          * that run the time printing and also notify the Museum is opened, 
          * closing and closed.
          */
-        public Timer(){
-
+        public Timer(Controller controller){
+            this.controller = controller;
         }
         
         /**
@@ -39,11 +46,17 @@ public class Timer extends Thread{
             return current_mins;
         }
 
+        public String getCurrentTime(){
+        return current_time;
+        }
+
         /**
          * Method that run all the function of the Timer Thread.
          */
         @Override
         public void run(){
+
+
             int num = 8;// Initialize integer num with 8 because the ticket selling start at 0800.
                 
             // Initialize integer hours that starting from 8 to 18 which represent 
@@ -57,6 +70,7 @@ public class Timer extends Thread{
                     String time = String.format("%02d", hours)+String.format("%02d", min);
                     try {
                         current_time = time;
+                        controller.setTimerTxt(time);
                         current_hour = hours;
                         current_mins = min;
                         if(hours==9&&min==0){// The time museum open at 0900
@@ -66,6 +80,7 @@ public class Timer extends Thread{
                         } else if(hours==18&&min==0){// The time museum close at 1800
                             System.out.println(time+" Museum is closed");
                         }
+
                         Thread.sleep(200);
                     }catch (InterruptedException e){
                         e.printStackTrace();
@@ -73,5 +88,6 @@ public class Timer extends Thread{
 
                 }
             }
+
         }
 }
