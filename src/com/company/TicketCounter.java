@@ -95,6 +95,7 @@ public class TicketCounter extends Thread {
             
             
             if (ticketSold == museum.getMaxTotalCapacity()) {
+                //controller.setLogStatement("The number of visitors has reached the daily visitor limit.");
                 System.out.println("The number of visitors has reached the daily visitor limit.");
                 break;
             }
@@ -120,20 +121,24 @@ public class TicketCounter extends Thread {
             }
             
             //print tickets sold
-            System.out.print(timer.current_time+" Tickets");
+            String ticketSoldLog = "Ticket(s)";
+            //System.out.print(timer.current_time+" Tickets");
             for(int i = 0; i<ticket_bought;i++){
                 if(i == ticket_bought-1){
-                    System.out.println(" " + tickets[i] + " sold");
+                    ticketSoldLog += " " + tickets[i] + " sold";
+                    //System.out.println(" " + tickets[i] + " sold");
                 }else{
-                    System.out.print(" " + tickets[i] + ",");
+                    ticketSoldLog += " " + tickets[i] + ",";
+                    //System.out.print(" " + tickets[i] + ",");
                 }
 
             }
+            controller.setTicketSellingLogStatement(ticketSoldLog);
 
             // Execute Ticket class as a pool of Thread based on the ticket bought.
             ExecutorService executor = Executors.newFixedThreadPool(ticket_bought+1);
             for(int i = 0; i<ticket_bought; i++){
-                Ticket ticket = new Ticket(timer,museum,turnstile,counter);
+                Ticket ticket = new Ticket(timer,museum,turnstile,controller,counter);
                 counter++;
                 ticketSold++;
                 executor.execute(ticket);
