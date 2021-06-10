@@ -1,4 +1,4 @@
-/**
+**
  * The Timer.java used to print the timestamp in 24 hours system. Timer will print
  * from 0800 which is ticket can be bought to 1800 which the museum close.
  * We assume that 200 ms = 1 minute for the museum environment.
@@ -74,10 +74,13 @@ public class Timer extends Thread{
                         current_hour = hours;
                         current_mins = min;
                         if(hours==9&&min==0){// The time museum open at 0900
+                            controller.changeMuseumStatus("Open");
                             System.out.println(time+" Museum is opened");
-                        }else if(hours==17&&min==50){// The time museum about to close at 1750
+                        }else if(hours==17&&min==45){// The time museum about to close at 1750
+                            controller.changeMuseumStatus("Closing");
                             System.out.println(time+" Museum is closing");
                         } else if(hours==18&&min==0){// The time museum close at 1800
+                            controller.changeMuseumStatus("Closed");
                             System.out.println(time+" Museum is closed");
                         }
 
