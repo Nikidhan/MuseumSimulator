@@ -1,4 +1,4 @@
-/**
+/**/**
  * The Turnstile.java create an object that act as an environment 
  * have 2 entrance and 2 exit, each of them have 4 turnstiles.
  */
@@ -16,6 +16,7 @@ public class Turnstile {
     private final Lock lock;
     private final Condition fullCondition;
     Timer timer;
+    Controller controller;
 
     /**
      * A Turnstile constructor that is called in the Main to create Turnstile 
@@ -23,8 +24,9 @@ public class Turnstile {
      * enter and exit 
      * @param timer 
      */
-    public Turnstile(Timer timer) {
+    public Turnstile(Timer timer, Controller controller) {
         this.timer = timer;
+        this.controller = controller;
         lock = new ReentrantLock();
         fullCondition = lock.newCondition();
     }
@@ -67,12 +69,22 @@ public class Turnstile {
         try{
             lock.lock();
             if(museum.getCurrentCapacity()==museum.getMaxCurrentCapacity()){
-                System.out.println("Museum is currently full. Ticket "+ticketID+" is waiting.");
+                //controller.setVisitorsLogStatement("Museum is currently full. Ticket "+ticketID+" is waiting.");
+                //System.out.println("Museum is currently full. Ticket "+ticketID+" is waiting.");
+                //controller.waiting(ticketID);
+                while(museum.getCurrentCapacity()==museum.getMaxCurrentCapacity()){
+                    fullCondition.await();//Wait for signalAll once visitor exit and new visitor to enter.
+                }
+                //controller.stopWaiting(ticketID);
             }
-            while(museum.getCurrentCapacity()==museum.getMaxCurrentCapacity()){
-                fullCondition.await();//Wait for signalAll once visitor exit and new visitor to enter.
+
+            String entranceGate = getEntranceGate();
+            if(entranceGate.charAt(0)=='N'){
+                controller.enterNETGate("Ticket "+ticketID);
+            } else {
+                controller.enterSETGate("Ticket "+ticketID);
             }
-            System.out.println(timer.current_time+" Ticket "+ticketID+" entered through "+getEntranceGate()+". Staying for "+duration+" minutes.");
+            //System.out.println(timer.current_time+" Ticket "+ticketID+" entered through "+getEntranceGate()+". Staying for "+duration+" minutes.");
         }finally{
             lock.unlock();
         }
@@ -90,7 +102,13 @@ public class Turnstile {
     public void exit(String ticketID,Museum museum) throws InterruptedException{
         try{
             lock.lock();
-            System.out.println(timer.current_time+ " Ticket "+ticketID+" exited through "+getExitGate());
+            String exitGate = getExitGate();
+            if(exitGate.charAt(0)=='E'){
+                controller.exitEETGate("Ticket "+ticketID);
+            } else {
+                controller.exitWETGate("Ticket "+ticketID);
+            }
+            //System.out.println(timer.current_time+ " Ticket "+ticketID+" exited through "+getExitGate());
             fullCondition.signalAll();//signal .await to allow next visitor to enter.
         } finally {
             lock.unlock();
