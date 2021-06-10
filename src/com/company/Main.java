@@ -24,7 +24,7 @@ public class Main extends Application{
         Parent root = FXMLLoader.load(getClass().getResource("gui.fxml"));
         stage.setTitle("Museum Simulator");
 
-        stage.setScene(new Scene(root,600,400));
+        stage.setScene(new Scene(root,1000,750));
         stage.show();
     }
 
