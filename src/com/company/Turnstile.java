@@ -1,4 +1,4 @@
-/**/**
+/**
  * The Turnstile.java create an object that act as an environment 
  * have 2 entrance and 2 exit, each of them have 4 turnstiles.
  */
@@ -110,6 +110,7 @@ public class Turnstile {
             }
             //System.out.println(timer.current_time+ " Ticket "+ticketID+" exited through "+getExitGate());
             fullCondition.signalAll();//signal .await to allow next visitor to enter.
+            controller.setCurrentTxt(museum.getCurrentCapacity());
         } finally {
             lock.unlock();
         }

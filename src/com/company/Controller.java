@@ -18,6 +18,7 @@ public class Controller implements Initializable {
     @FXML
     public Text timerTxt;
     public Text ticketRemainingTxt;
+    public Text currentTxt;
     public TextField setDailyVisitorLimit, setCapacityLimit, setTicketLimit;
     public Circle openCircle;
     public Circle closingCircle;
@@ -87,6 +88,11 @@ public class Controller implements Initializable {
     public void setTicketRemainingTxtTxt(int ticket){
         String ticketString = String.valueOf(ticket);
         ticketRemainingTxt.setText(ticketString);
+    }
+
+    public void setCurrentTxt(int currentCapacity){
+        String capacityString = String.valueOf(currentCapacity);
+        currentTxt.setText(capacityString);
     }
 
     public void textFieldInteger(){
