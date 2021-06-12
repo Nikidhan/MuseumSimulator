@@ -39,7 +39,7 @@ public class Main extends Application{
 //        System.out.println("Enter the number of tickets:");
 //        int totalTicket = read.nextInt();
 //
-//        com.company.Museum museum = new com.company.Museum(max_current_capacity,max_total_capacity);
+//        Museum museum = new Museum(max_current_capacity,max_total_capacity);
 //        Timer timer = new Timer();
 //        Turnstile turn = new Turnstile(timer);
 //        TicketCounter t1 = new TicketCounter(timer,museum,turn,totalTicket);
