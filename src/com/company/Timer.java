@@ -1,13 +1,9 @@
-**
+/**
  * The Timer.java used to print the timestamp in 24 hours system. Timer will print
  * from 0800 which is ticket can be bought to 1800 which the museum close.
  * We assume that 200 ms = 1 minute for the museum environment.
  */
 package com.company;
-
-import javafx.scene.text.Text;
-
-import java.awt.*;
 
 /**
  * @author Aiman, Zikri, Ahlami, Nik
@@ -19,11 +15,10 @@ public class Timer extends Thread{
         int current_hour;
         int current_mins;
         Controller controller;
-
                 
         /**
          * Timer constructor that is called in the Main to create Timer object 
-         * that run the time printing and also notify the Museum is opened, 
+         * that run the time printing and also notify the museum is opened,
          * closing and closed.
          */
         public Timer(Controller controller){
