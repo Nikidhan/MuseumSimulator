@@ -57,23 +57,23 @@ public class Controller implements Initializable {
         ticketsSellingLog.appendText("\n"+logStatement);
     }
 
-    public void enterNETGate(String visitor){
-        netGate.appendText("\n"+visitor + " enter.");
+    public void enterNETGate(String timestamp, String visitor, String gate, long duration){
+        netGate.appendText("\n" + timestamp + " " + visitor + " entered through " + gate + ". Staying for " + duration + " minutes.");
         museum.getItems().add(visitor);
     }
 
-    public void enterSETGate(String visitor){
-        setGate.appendText("\n"+visitor + " enter.");
+    public void enterSETGate(String timestamp, String visitor, String gate, long duration){
+        setGate.appendText("\n" + timestamp + " " + visitor + " entered through " + gate + ". Staying for " + duration + " minutes.");
         museum.getItems().add(visitor);
     }
 
-    public void exitEETGate(String visitor){
-        eetGate.appendText("\n"+visitor + " exit.");
+    public void exitEETGate(String timestamp, String visitor, String gate){
+        eetGate.appendText("\n" + timestamp + " " + visitor + " exited through " + gate);
         museum.getItems().remove(visitor);
     }
 
-    public void exitWETGate(String visitor){
-        wetGate.appendText("\n"+visitor + " exit.");
+    public void exitWETGate(String timestamp, String visitor, String gate){
+        wetGate.appendText("\n" + timestamp + " " + visitor + " exited through " + gate);
         museum.getItems().remove(visitor);
     }
 
