@@ -1,8 +1,8 @@
-package com.company; /**
+/**
  * The Museum.java used to create an environment of a museum with
  * visitors.
  */
-
+package com.company;
 /**
  * @author Aiman, Zikri, Ahlami, Nik
  */
