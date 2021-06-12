@@ -28,12 +28,13 @@ public class TicketCounter extends Thread {
      * @param turnstile
      * @param num 
      */
-    public TicketCounter(Timer timer,Museum museum,Turnstile turnstile,Controller controller,int num){
+    public TicketCounter(Timer timer, Museum museum, Turnstile turnstile, Controller controller, int num){
         this.controller = controller;
         this.timer = timer;
         this.museum = museum;
         this.turnstile = turnstile;
         ticket_remaining=num;
+        controller.setTicketSellingLogStatement("Ticket selling started.");
     }
 
     //Simulate cashier preparing the ticket
@@ -95,12 +96,10 @@ public class TicketCounter extends Thread {
             
             
             if (ticketSold == museum.getMaxTotalCapacity()) {
-                //controller.setLogStatement("The number of visitors has reached the daily visitor limit.");
+                controller.setTicketSellingLogStatement("The number of visitors has reached the daily visitor limit.");
                 System.out.println("The number of visitors has reached the daily visitor limit.");
                 break;
             }
-
-            Random rand_buy = new Random();
 
             if(museum.getMaxTotalCapacity()-ticketSold<4 && museum.getMaxTotalCapacity()-ticketSold>0){
                 ticket_bought = getRandomInteger(museum.getMaxTotalCapacity()-ticketSold,1);
