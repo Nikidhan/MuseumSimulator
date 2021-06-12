@@ -1,8 +1,8 @@
-/**
- * The Museum.java used to create an environment of a museum with 
+package com.company; /**
+ * The Museum.java used to create an environment of a museum with
  * visitors.
  */
-package com.company;
+
 /**
  * @author Aiman, Zikri, Ahlami, Nik
  */
@@ -14,7 +14,7 @@ public class Museum {
     private int max_total_capacity;//Parameter that limit the total capacity of the visitor.
         
     /**
-     * A Museum constructor that is called in the Main to create Museum object 
+     * A Museum constructor that is called in the Main to create Museum object
      * that set the maximum capacity at one time and set the max capacity for 
      * the whole iteration.
      * @param max_current_capacity
