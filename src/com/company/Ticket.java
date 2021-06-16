@@ -17,12 +17,12 @@ public class Ticket extends Thread{
     Controller controller;
 
     /**
-     * A Ticket constructor that is called in the TicketCounter to create Ticket 
+     * A Ticket constructor that is called in the TicketCounter to create Ticket
      * object.
      * @param timer
      * @param museum
      * @param turnstile
-     * @param timestamp 
+     * @param timestamp
      */
     public Ticket (Timer timer, Museum museum, Turnstile turnstile, Controller controller, long timestamp){
         this.museum = museum;
@@ -48,12 +48,13 @@ public class Ticket extends Thread{
         try {
             //No visitor enter at 0800
             while(timer.current_time.charAt(1)=='8'){
-                
-            }    
+
+            }
+
             turnstile.enter(ticketID,duration,museum);
             museum.visitor_enter();
-            
-            // To calculate the exit time 
+
+            // To calculate the exit time
             int exit_hour = timer.getCurrentHour() + hours;
             int exit_minute = timer.getCurrentMin() + minutes;
 
@@ -74,13 +75,13 @@ public class Ticket extends Thread{
                     turnstile.exit(ticketID, museum);
                     museum.visitor_exit();
                     break;
-                    
-                // Forcing all visitors inside the museum exit.    
+
+                    // Forcing all visitors inside the museum exit.
                 } else if(timer.getCurrentHour()==17&&timer.getCurrentMin()>45){
                     //controller.setVisitorsLogStatement(ticketID + "  is exiting because museum is closing");
                     //System.out.println(ticketID + "  is exiting because museum is closing");
-                    turnstile.exit(ticketID, museum);
                     museum.visitor_exit();
+                    turnstile.exit(ticketID, museum);
                     break;
                 }
             }
