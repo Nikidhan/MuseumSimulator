@@ -129,8 +129,9 @@ public class Controller implements Initializable {
         int capacityLimit = Integer.parseInt(setCapacityLimit.getText());
         int ticketLimit = Integer.parseInt(setTicketLimit.getText());
 
-        Timer timer = new Timer(this);
         Museum museum = new Museum(dailyVisitorLimit,capacityLimit);
+        Timer timer = new Timer(this, museum);
+
         Turnstile turn = new Turnstile(timer,this);
         TicketCounter t1 = new TicketCounter(timer,museum,turn,this,ticketLimit);
         timer.start();
