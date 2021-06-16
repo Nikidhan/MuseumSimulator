@@ -12,13 +12,13 @@ public class Museum {
     private int total_capacity;//Parameter that collect the total capacity of the visitor.
     private int max_current_capacity;//Parameter that limit the current capacity of the visitor.
     private int max_total_capacity;//Parameter that limit the total capacity of the visitor.
-        
+
     /**
      * A Museum constructor that is called in the Main to create Museum object
-     * that set the maximum capacity at one time and set the max capacity for 
+     * that set the maximum capacity at one time and set the max capacity for
      * the whole iteration.
      * @param max_current_capacity
-     * @param max_total_capacity 
+     * @param max_total_capacity
      */
     public Museum(int max_current_capacity, int max_total_capacity ){
         this.max_current_capacity = max_current_capacity;
@@ -26,13 +26,13 @@ public class Museum {
     }
 
     /**
-     * Method that collect the current capacity and total capacity of the 
+     * Method that collect the current capacity and total capacity of the
      * visitors.
      */
     public void visitor_enter(){
         current_capacity++;
         total_capacity++;
-       // print();
+        // print();
     }
 
     /**
@@ -41,7 +41,7 @@ public class Museum {
      */
     public void visitor_exit(){
         current_capacity--;
-       // print();
+        // print();
     }
 
     /**
@@ -51,16 +51,16 @@ public class Museum {
     public int getCurrentCapacity(){
         return current_capacity;
     }
-    
+
     /**
-     * Method that get the limit of the maximum current capacity of visitors 
+     * Method that get the limit of the maximum current capacity of visitors
      * at one time.
      * @return max_current_capacity
      */
     public int getMaxCurrentCapacity(){
         return max_current_capacity;
     }
-    
+
     /**
      * Method that get the total capacity of visitors at that time.
      * @return total_capacity
@@ -68,7 +68,7 @@ public class Museum {
     public int getTotalCapacity(){
         return total_capacity;
     }
-    
+
     /**
      * Method that get the limit of maximum total capacity of visitors.
      * @return max_total_capacity
@@ -76,9 +76,9 @@ public class Museum {
     public int getMaxTotalCapacity(){
         return max_total_capacity;
     }
-    
+
     /**
-     * Method that print the current and total capacity of visitors out of the 
+     * Method that print the current and total capacity of visitors out of the
      * maximum current capacity and total capacity.
      */
 //    public void print(){
