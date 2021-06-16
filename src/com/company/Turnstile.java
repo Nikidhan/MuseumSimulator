@@ -6,6 +6,8 @@ package com.company;
 /**
  * @author Aiman, Zikri, Ahlami, Nik
  */
+import javafx.application.Platform;
+
 import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -19,10 +21,10 @@ public class Turnstile {
     Controller controller;
 
     /**
-     * A Turnstile constructor that is called in the Main to create Turnstile 
-     * object that used the Timer class to print out the time when visitors 
-     * enter and exit 
-     * @param timer 
+     * A Turnstile constructor that is called in the Main to create Turnstile
+     * object that used the Timer class to print out the time when visitors
+     * enter and exit
+     * @param timer
      */
     public Turnstile(Timer timer, Controller controller) {
         this.timer = timer;
@@ -32,7 +34,7 @@ public class Turnstile {
     }
 
     /**
-     * Method thar get the visitor's entrance gate and turnstile that randomly 
+     * Method thar get the visitor's entrance gate and turnstile that randomly
      * assign to every customer.
      * @return getName
      */
@@ -42,7 +44,7 @@ public class Turnstile {
     }
 
     /**
-     * Method thar get the visitor's exit gate and turnstile that randomly 
+     * Method thar get the visitor's exit gate and turnstile that randomly
      * assign to every customer.
      * @return getName
      */
@@ -53,35 +55,47 @@ public class Turnstile {
 
     /**
      * Method that prevent visitor to enter any turnstiles when the museum current
-     * capacity reached the maximum current capacity. Once the current capacity 
-     * is less than the maximum current capacity, the visitor allow to enter and print 
+     * capacity reached the maximum current capacity. Once the current capacity
+     * is less than the maximum current capacity, the visitor allow to enter and print
      * the current time of entrance, ticket ID, entrance gate and the duration.
      * @param ticketID
      * @param duration
      * @param museum
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     public void enter(String ticketID, long duration, Museum museum) throws InterruptedException{
-        //Once visitor enter, it will be lock to check whether the capacity exceed 
-        //the limit. While the capcity exceeded the limit, the system will await 
-        //for signalAll which indicate there visitor exit to allow the visitor to 
+        //Once visitor enter, it will be lock to check whether the capacity exceed
+        //the limit. While the capcity exceeded the limit, the system will await
+        //for signalAll which indicate there visitor exit to allow the visitor to
         //enter.
         try{
             lock.lock();
             if(museum.getCurrentCapacity()==museum.getMaxCurrentCapacity()){
                 //System.out.println("Museum is currently full. Ticket "+ticketID+" is waiting.");
-                controller.waiting("Ticket "+ticketID);
+                Platform.runLater(()->{
+                    controller.waiting("Ticket "+ticketID);
+                });
+
                 while(museum.getCurrentCapacity()==museum.getMaxCurrentCapacity()){
                     fullCondition.await();//Wait for signalAll once visitor exit and new visitor to enter.
                 }
-                controller.stopWaiting("Ticket "+ticketID);
+                Platform.runLater(()->{
+                    controller.stopWaiting("Ticket "+ticketID);
+                });
+
             }
 
             String entranceGate = getEntranceGate();
             if(entranceGate.charAt(0)=='N'){
-                controller.enterNETGate(timer.current_time,"Ticket "+ticketID, entranceGate, duration);
+                Platform.runLater(()->{
+                    controller.enterNETGate(timer.current_time,"Ticket "+ticketID, entranceGate, duration);
+                });
+
             } else {
-                controller.enterSETGate(timer.current_time,"Ticket "+ticketID, entranceGate, duration);
+                Platform.runLater(()->{
+                    controller.enterSETGate(timer.current_time,"Ticket "+ticketID, entranceGate, duration);
+                });
+
             }
             //System.out.println(timer.current_time+" Ticket "+ticketID+" entered through "+getEntranceGate()+". Staying for "+duration+" minutes.");
         }finally{
@@ -91,25 +105,30 @@ public class Turnstile {
     }
 
     /**
-     * Method that keep track of visitor that exit, print the current time of exit, 
+     * Method that keep track of visitor that exit, print the current time of exit,
      * ticket ID and the exit gate. Then, it will signalAll to the enter method to
      * allow visitor to enter.
      * @param ticketID
      * @param museum
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     public void exit(String ticketID, Museum museum) throws InterruptedException{
         try{
             lock.lock();
             String exitGate = getExitGate();
             if(exitGate.charAt(0)=='E'){
-                controller.exitEETGate(timer.current_time,"Ticket "+ticketID, exitGate);
+                Platform.runLater(()->{
+                    controller.exitEETGate(timer.current_time,"Ticket "+ticketID, exitGate);
+                });
             } else {
-                controller.exitWETGate(timer.current_time,"Ticket "+ticketID, exitGate);
+                Platform.runLater(()->{
+                    controller.exitWETGate(timer.current_time,"Ticket "+ticketID, exitGate);
+                });
+
             }
             //System.out.println(timer.current_time+ " Ticket "+ticketID+" exited through "+getExitGate());
             fullCondition.signalAll();//signal .await to allow next visitor to enter.
-            controller.setCurrentTxt(museum.getCurrentCapacity());
+
         } finally {
             lock.unlock();
         }
