@@ -4,6 +4,8 @@
  */
 package com.company;
 
+import javafx.application.Platform;
+
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,13 +22,13 @@ public class TicketCounter extends Thread {
     Controller controller;
 
     /**
-     * A TicketCounter constructor that is called in the Main to create 
+     * A TicketCounter constructor that is called in the Main to create
      * TicketCounter object. The initial available ticket will be initialize
      * when calling this constructor.
      * @param timer
      * @param museum
      * @param turnstile
-     * @param num 
+     * @param num
      */
     public TicketCounter(Timer timer, Museum museum, Turnstile turnstile, Controller controller, int num){
         this.controller = controller;
@@ -43,9 +45,9 @@ public class TicketCounter extends Thread {
     //2) generate ticket ID for tickets bought
     //3) called sale() and print "0000 Ticket 0001,0002 sold"
     //4) start all tickets thread using executor
-    
+
     /**
-     * A method prepare the ticket ID and also randomize the duration of one 
+     * A method prepare the ticket ID and also randomize the duration of one
      * visitor inside the museum.
      * @param current
      * @return ticketID
@@ -78,7 +80,7 @@ public class TicketCounter extends Thread {
             tickets--;
             ticket_remaining = tickets;
             controller.setTicketRemainingTxtTxt(ticket_remaining);
-           // System.out.println("Remaining ticket: "+ticket_remaining);
+            // System.out.println("Remaining ticket: "+ticket_remaining);
         }
     }
 
@@ -90,11 +92,12 @@ public class TicketCounter extends Thread {
         int ticket_bought=0;
 
         while(ticket_remaining>0 && timer.getCurrentHour()<17 && ticketSold <= museum.getMaxTotalCapacity()) {// Ticket selling time until 1700
+
             if (timer.getCurrentHour() == 17 && timer.getCurrentMin() >= 0) {
                 break;
             }
-            
-            
+
+
             if (ticketSold == museum.getMaxTotalCapacity()) {
                 controller.setTicketSellingLogStatement("The number of visitors has reached the daily visitor limit.");
                 System.out.println("The number of visitors has reached the daily visitor limit.");
@@ -118,7 +121,7 @@ public class TicketCounter extends Thread {
                 sale();
                 current++;
             }
-            
+
             //print tickets sold
             String ticketSoldLog = "Ticket(s)";
             //System.out.print(timer.current_time+" Tickets");
@@ -130,9 +133,12 @@ public class TicketCounter extends Thread {
                     ticketSoldLog += " " + tickets[i] + ",";
                     //System.out.print(" " + tickets[i] + ",");
                 }
-
+//                Platform.runLater(()->{
+//                    controller.setTicketSellingLogStatement(ticketSoldLog);
+//                });
             }
-            controller.setTicketSellingLogStatement(ticketSoldLog);
+                controller.setTicketSellingLogStatement(ticketSoldLog);
+
 
             // Execute Ticket class as a pool of Thread based on the ticket bought.
             ExecutorService executor = Executors.newFixedThreadPool(ticket_bought+1);
