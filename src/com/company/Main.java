@@ -21,7 +21,7 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("gui.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
         stage.setTitle("Museum Simulator");
 
         stage.setScene(new Scene(root,1000,750));
@@ -48,5 +48,5 @@ public class Main extends Application{
 //        t1.start();
         launch(args);
     }
-    
+
 }
